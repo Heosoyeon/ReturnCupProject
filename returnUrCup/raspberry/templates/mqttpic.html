@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>pir_mqtt</title>
+    <script src = "https://cdnjs.cloudflare.com/ajax/libs/paho-mqtt/1.0.1/mqttws31.js"
+            type = "text/javascript"> </script>
+    <script type="text/javascript">
+        var host = "192.168.0.127";
+        var port = 9001;
+        var mqtt;
+
+    function onConnect(){
+        console.log("접속 완료")
+
+        //영상데이터가 전송될 때까지 대기
+        mqtt.subscribe("rasp/camera");
+        //웹페이지 접속 하자마자 메시지 보내기
+        message = new Paho.MQTT.Message("start");
+        message.destinationName = "web";
+        mqtt.send(message);
+    }
+    function onFailure(){
+        console.log("접속 실패"+host+", "+port);
+        setTimeout(MQTTconnect, reconnectTimeout);
+    }
+    function onMsgArr(msg){
+        console.log("======="+msg.payloadBytes+"===========<br/>");
+        // 전송되는 payloadBytes를 이미지로 만들어서 이미지태그에 연결
+        // 바이너리데이터를 인코딩해야 할 경우 : Base64
+        // 자바스크립트에서 문자열을 base64로 인코드하려면 btoa라는 윈도우메소드를 이용해서 변환 (문자열-> 이미지)
+        // broker에게 전송받은 payloadBytes를 btoa메소드에서 변경할 수 있도록 문자열로 변환해서 전달
+        document.getElementById("myimg").src = "data:image/jpeg; base64, "+ btoa(String.fromCharCode.apply(null, msg.payloadBytes))
+    }
+    //mqtt통신을 위한 함수
+    function MQTTConnect(){
+        console.log("mqtt접속"+host+", "+port)
+        mqtt = new Paho.MQTT.Client(host, port, "javascript_client")
+        var options = {
+            timeout : 3,
+            onSuccess:onConnect,
+            onFailure:onFailure,
+        }
+        mqtt.onMessageArrived = onMsgArr;
+        mqtt.connect(options);
+    }
+    function sendMsg(msg){
+            message = new Paho.MQTT.Message(msg);
+            message.destinationName = "iot/led" //토픽설정
+            mqtt.send(message); //mqtt메시지 보내기 - publish
+        }
+
+    </script>
+</head>
+
+<body>
+    <h1>mqtt video</h1>
+    <script type="text/javascript">
+        MQTTConnect()
+    </script>
+    <img src="#" id="myimg" width="800" height="600"/>
+    <form>
+        <input type = "checkbox" value="led_on" onclick="
+               if (this.value === 'led_on'){
+                    sendMsg('led_on');
+                    this.value = 'led_off';
+                }
+                else{
+                    sendMsg('led_off');
+                    this.value = 'led_on';
+                }">
+    </form>
+</body>
+</html>
