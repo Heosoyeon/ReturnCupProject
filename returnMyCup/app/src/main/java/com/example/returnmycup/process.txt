@@ -1,0 +1,31 @@
+
+<mqtt>
+	키오스크    ->    라즈베리파이
+        topic	kiosk/camera
+        msg	"camera_on"
+
+<mqtt>
+	1)
+	라즈베리파이 -> 키오스크
+        {topic: brand_result, picture: "a1b40r89328", brand: "starbucks"}
+
+<http>
+	키오스크    ->   django web
+            kiosk/phoneNum
+            "휴대번호"
+
+<http>
+	키오스크     <-    django web
+            return
+            "회원이름", "적립금"
+
+<mqtt>
+	라즈베리파이2   ->  키오스크
+            raspi/cup
+            "ok"
+
+            else                -> 키오스크에서 알람 띄움
+            "fail"
+<http>
+	키오스크   ->   django web
+            "brandname", "image", "휴대번호"

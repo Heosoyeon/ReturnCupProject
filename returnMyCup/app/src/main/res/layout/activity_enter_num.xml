@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity"
+    android:orientation="vertical">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="#4F8BC34A">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="핸드폰 번호를 입력해주세요."
+            android:textSize="30dp"
+            android:layout_gravity="center"/>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:layout_weight="1"
+        android:background="#4F8BC34A">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center">
+            <EditText
+                android:id="@+id/enter_num"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:hint="01012341234"
+                android:maxLength="11"
+                android:textSize="50dp"
+                android:inputType="phone"/>
+            <Button
+                android:id="@+id/btn_confirm"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="30dp"
+                android:text="입력완료"
+                android:layout_marginLeft="30dp"/>
+
+        </LinearLayout>
+        <TextView
+            android:id="@+id/mynum_check"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="30dp"
+            android:text="나의 휴대번호"/>
+        <TextView
+            android:id="@+id/myname_check"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="30dp"
+            android:text="나의 이름"/>
+        <Button
+            android:id="@+id/btn_confirm2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="번호확인"/>
+
+    </LinearLayout>
+        <Button
+            android:id="@+id/btn_fifth_home"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="홈화면"
+            android:textSize="30dp"
+            android:backgroundTint="#3D692B"
+            android:layout_gravity="right"/>
+
+</LinearLayout>
