@@ -4,12 +4,20 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import android.widget.TextView
 import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_login.*
 import kotlinx.android.synthetic.main.activity_main.*
 import okhttp3.*
+import org.json.JSONArray
 import org.json.JSONObject
+import org.json.JSONTokener
+import java.io.BufferedReader
+import java.io.InputStreamReader
+import java.net.HttpURLConnection
+import java.net.URL
 import kotlin.concurrent.thread
 
 class MainActivity : AppCompatActivity() {
@@ -19,45 +27,23 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        thread{
-            // 서버로 전송할 JSONObject를 만들기 - 사용자가 입력한 id와 password를 담고 있음
-            var jsonobj = JSONObject()
-            jsonobj.put("userName",username.text)
-            jsonobj.put("acPoint",pointAmass.text)
-            jsonobj.put("acBrand",username.text)
-            jsonobj.put("acDate",username.text)
 
-            var userPointList = arrayOf<String>("acDate","acBrand","acPoint")
+        var intent = intent  // FirstActivity로부터 인텐트 받아와서 그것을 intent라는 변수에 저장
+//        var datalist = intent.getStringArrayExtra("datalist")
+        var poneNumStr = intent.getStringArrayExtra("poneNumStr")
+        var pointStr = intent.getStringArrayExtra("pointStr")
+        var brandStr = intent.getStringArrayExtra("brandStr")
+        var dateStr = intent.getStringArrayExtra("dateStr")
+        Log.d("http","넘어왔니? : $poneNumStr, $pointStr, $brandStr, $dateStr")
+//        Log.d("http","넘어왔니? : $datalist")
 
-//            jsonobj.put("userPass",pwd.text)
-            val url = "http://192.168.219.105:8000/android_rest/list"
-            // 1. ListView의 출력할 데이터
+        username.text = "$poneNumStr 님의 적립금"
+        pointAmass.text = "$pointStr  P"
 
-            // okhttp3 라이브러리의 OkHttpClient객체를 이용해서 작업
-            val client = OkHttpClient()
+        var datalist = arrayOf<String>("포인트 금액 : $pointStr   브랜드명 : $brandStr   적립일 : $dateStr")
+        val myadapter = ArrayAdapter(this,android.R.layout.simple_list_item_1,datalist)
 
-            // json데이터를 이용해서 request처리
-            val jsondata = jsonobj.toString()
-            // 서버에 요청을 담당하는 객체
-            val builder = Request.Builder()  // request객체를 만들어주는 객체 생성
-            builder.url(url)  // Builder객체에 request할 주소(=네트워크 상의 주소) 셋팅
-            builder.post(RequestBody.create(MediaType.parse("application/json"),jsondata))  // 요청 메시지 만들고, 요청메시지의
-            // 타입이 json이라고 설정
-            val myrequest: Request = builder.build()  // Builder객체를 이용해서 request객체 만들기
-            // 생성한 request객체를 이용해서 웹에 request하기 - request결과로 response객체가 리턴
-            val response: Response = client.newCall(myrequest).execute()
-
-            // response에서 메시지 꺼내서 로그출력하기
-            val result:String? = response.body()?.string()
-
-            val myadapter = ArrayAdapter(this,android.R.layout.simple_list_item_1,userPointList)
-        }
+        // 4. ListView에 adapter를 연결
+        listview1.adapter = myadapter
     }
 }
-
-
-//        val intent = intent  // FirstActivity로부터 인텐트 받아와서 그것을 intent라는 변수에 저장
-//        val name = intent.getStringArrayExtra("name")
-//
-//        username.text = "$userName 님의 적립금"
-//        pointAmass.text = "$acPoint P"

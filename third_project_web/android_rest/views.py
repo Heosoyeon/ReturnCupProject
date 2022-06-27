@@ -106,9 +106,12 @@ def user_login(request):
         name = obj.userName
         print(name)
 
-        ptlist = PointInfo.objects.all()
+        phoneNum = obj.phoneNum
+        ptlist = PointInfo.objects.filter(phoneNum=str(phoneNum))
         print(ptlist)
 
+        # ptlist = PointInfo.objects.all()
+        # print(ptlist)
         serializer = PointInfoSerializer(ptlist, many=True)
         print(json.dumps(serializer.data, ensure_ascii=False, default=str))
         # BoardSerializer데이터를 json으로 변환해서 리턴
@@ -120,4 +123,4 @@ def user_login(request):
             # return render(request, "login.html", status=401)
         else:
             return JsonResponse("login fail", safe=False, json_dumps_params={'ensure_ascii': False})
-    # return render(request, 'login.html')
+    return render(request, 'login.html')

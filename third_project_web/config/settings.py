@@ -80,28 +80,28 @@ WSGI_APPLICATION = 'config.wsgi.application'
 #         'NAME': BASE_DIR / 'db.sqlite3',
 #     }
 # }
-
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.mysql',
-#         'NAME': 'returnmycup',
-#         'USER': 'rmc_client',
-#         'PASSWORD': 'cKnS24VAQtET',
-#         'HOST': 'group4-database.chcjzkiadoqb.ap-northeast-1.rds.amazonaws.com',
-#         'PORT': '3306',
-#     }
-# }
-
+# 클라우드에 올림
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'third_test',
-        'USER': 'root',
-        'PASSWORD': '111111',
-        'HOST': '127.0.0.1',
+        'NAME': 'returnmycup',
+        'USER': 'rmc_client',
+        'PASSWORD': 'cKnS24VAQtET',
+        'HOST': 'group4-database.chcjzkiadoqb.ap-northeast-1.rds.amazonaws.com',
         'PORT': '3306',
     }
 }
+# 테스트용 DB
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.mysql',
+#         'NAME': 'third_test',
+#         'USER': 'root',
+#         'PASSWORD': '111111',
+#         'HOST': '127.0.0.1',
+#         'PORT': '3306',
+#     }
+# }
 
 # Password validation
 # https://docs.djangoproject.com/en/4.0/ref/settings/#auth-password-validators

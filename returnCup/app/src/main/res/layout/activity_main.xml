@@ -26,10 +26,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="P"
-            android:textSize="17sp"
+            android:textSize="20sp"
             android:textStyle="bold"
             android:layout_marginTop="30dp"
-            android:layout_marginLeft="30dp"
+            android:layout_marginLeft="15dp"
             android:layout_gravity="center"/>
     </LinearLayout>
     <LinearLayout
@@ -39,17 +39,18 @@
         android:layout_marginRight="40dp"
         android:orientation="vertical">
         <TextView
+            android:id="@+id/listtext"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="포인트 적립 내역 조회"
             android:textStyle="bold"
             android:textSize="15sp"/>
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/myrecycler"
-            android:layout_marginTop="20dp"
+        <ListView
+            android:id="@+id/listview1"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"/>
 
     </LinearLayout>
 </LinearLayout>
