@@ -75,4 +75,4 @@ del image
 
 print("="*100)
 publish.single("brand_result", classification_label, hostname="35.78.109.81")
-exec(open('webcam2_copy.py').read())
+exec(open('webcam_capture.py').read())
