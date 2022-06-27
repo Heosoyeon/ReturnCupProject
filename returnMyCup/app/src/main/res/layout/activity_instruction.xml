@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity"
+    android:orientation="vertical"
+    >
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="뚜껑과 홀더를 분리하고\n뒤집어서 넣어주세요."
+        android:textSize="30dp"
+        android:gravity="center"
+        android:layout_weight="3"/>
+    <ImageView
+        android:id="@+id/instructionGif"
+        android:layout_width="600dp"
+        android:layout_height="600dp"
+        android:layout_gravity="center"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_weight="0.5"
+        android:gravity="right">
+        <Button
+            android:id="@+id/btn_ok"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:textSize="30dp"
+            android:text="확인"/>
+        <Button
+            android:id="@+id/btn_third_home"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="홈화면"
+            android:textSize="30dp"
+            android:backgroundTint="#3D692B"
+            android:layout_gravity="right"/>
+    </LinearLayout>
+
+</LinearLayout>
