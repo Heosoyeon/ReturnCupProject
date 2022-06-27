@@ -4,16 +4,26 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.widget.ArrayAdapter
 import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_login.*
+import kotlinx.android.synthetic.main.activity_main.*
 import okhttp3.*
+import org.json.JSONArray
 import org.json.JSONObject
 import org.json.JSONTokener
+import java.io.BufferedReader
+import java.io.InputStreamReader
+import java.net.HttpURLConnection
+import java.net.URL
 import kotlin.concurrent.thread
 
 class LoginActivity : AppCompatActivity() {
-//    var i = 0
-//    var pointString = ""
+    var poneNumStr : String = ""
+    var brandStr : String = ""
+    var pointStr : String = ""
+    var dateStr : String = ""
+//    var datalist = arrayOf<String>(poneNumStr,brandStr,pointStr,dateStr)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
@@ -24,8 +34,8 @@ class LoginActivity : AppCompatActivity() {
                 var jsonobj = JSONObject()
                 jsonobj.put("userId",id.text)
                 jsonobj.put("userPass",pwd.text)
-                val url = "http://192.168.219.105:8000/android_rest/user_login"
-
+                val site = "http://192.168.219.105:8000/android_rest/user_login"
+                val url = URL(site)
                 // okhttp3 라이브러리의 OkHttpClient객체를 이용해서 작업
                 val client = OkHttpClient()
 
@@ -41,54 +51,47 @@ class LoginActivity : AppCompatActivity() {
                 val response: Response = client.newCall(myrequest).execute()
 
                 // response에서 메시지 꺼내서 로그출력하기
-                //var result:String? = response.body()?.string()  // string이 아니라 array로
+                var result:String? = response.body()?.string()  // string이 아니라 array로
 
-//                var result = jsonobj.optJSONArray("pointinfo")
-                var result = response.arrayOf<String>()
+                val jsonArray = JSONTokener(result).nextValue() as JSONArray
 
-                 Log.d("http",result!!)
-/////////////////////
-                val jsonObject = JSONTokener(result).nextValue() as JSONObject
 
-                val phonenum = jsonObject.getString("phoneNum")
-                Log.d("전화번호: ", phonenum)
+                for(i in 0 until jsonArray.length()){
+                    var phoneNum = jsonArray.getJSONObject(i).getString("phoneNum")
+                    Log.d("http",phoneNum)
+                    poneNumStr = phoneNum
+                    var acPoint = jsonArray.getJSONObject(i).getString("acPoint")
+                    Log.d("http",acPoint)
+                    pointStr = acPoint
+                    var acBrand = jsonArray.getJSONObject(i).getString("acBrand")
+                    Log.d("http",acBrand)
+                    brandStr = acBrand
+                    var acDate = jsonArray.getJSONObject(i).getString("acDate")
+                    Log.d("http",acDate)
+                    dateStr = acDate
+                    Log.d("http","전화번호 : $poneNumStr, 포인트 : $pointStr, 브랜드 : $brandStr, 날짜 : $dateStr")
 
-//                val username = jsonObject.getString("userName")
-//                Log.i("이름: ", username)
-
-                val brand = jsonObject.getString("acBrand")
-                Log.d("브랜드: ", brand)
-
-                val pointDate = jsonObject.getString("acDate")
-                Log.d("날짜: ", pointDate)
-/////////////////////
-
-                // 로그인성공여부가 메시지로 전달되면 그에 따라 다르게 작업할 수 있도록 코드
-//                result = result.substring(1,result.length-1)
-
-//                for(i in 0..result.length()){
-//                    var jsonObject = result.getJSONObject(i)
+                }
+//                val myadapter = ArrayAdapter(this,android.R.layout.simple_list_item_1,datalist)
 //
-////                    var name = jsonObject.getString("userName")
-////                    var point = jsonObject.getString("acPoint")
-////                    var brand = jsonObject.getString("acBrand")
-////                    var point_date = jsonObject.getString("acDate")
-//
-////                    pointString += "이름 : $name, 포인트 : $point, 브랜드 : $brand, 날짜 : $point_date"
-//                    Log.d("http",jsonObject)
-//
-//                }
+//                // 4. ListView에 adapter를 연결
+//                listview1.adapter = myadapter
+                //listview1.setAdapter(myadaper)    => setter메소드
+                //myadapter = listview1.getAdapter  => getter메소드
 
-//                if(result == ){
-//                    Log.d("http","성공")
-////                    Log.d("http",result)
-//                    val intent = Intent(this,MainActivity::class.java).apply {
-//                    }
-//                    startActivityForResult(intent,102)
-//                }
-//                val intent = Intent(this,MainActivity::class.java).apply {
-//                }
-//                startActivityForResult(intent,102)
+                result = result?.substring(1,result.length-1)
+                if(result != "login fail"){
+                    Log.d("http","성공")
+                    val intent = Intent(this,MainActivity::class.java).apply {
+                        intent.putExtra("poneNumStr", poneNumStr)
+                        intent.putExtra("pointStr", pointStr)
+                        intent.putExtra("brandStr", brandStr)
+                        intent.putExtra("dateStr", dateStr)
+//                        intent.putExtra("acBrand", $acBrand)
+                    }
+                    startActivityForResult(intent,102)
+                }
+
             }
         }
         register.setOnClickListener {
